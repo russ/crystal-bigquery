@@ -1,0 +1,20 @@
+name: crystal-bigquery
+version: 0.1.0
+crystal: ">= 0.36.1" 
+
+dependencies:
+  connect-proxy:
+    github: spider-gazelle/connect-proxy
+    version: ~> 1.0
+  jwt:
+    github: crystal-community/jwt
+    version: ~> 1.4
+
+development_dependencies:
+  webmock:
+    github: manastech/webmock.cr
+
+  ameba:
+    github: veelenga/ameba
+
+license: MIT
