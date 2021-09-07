@@ -1,13 +1,17 @@
 module Google
-  module Bigquery
-    module Includes
-      module AuthInclude
-        def get_token(auth) : String
-          case auth
-          in Google::Bigquery::Auth, Google::Bigquery::FileAuth
-            auth.get_token.access_token
-          in String
-            auth
+  module Cloud
+    module Bigquery
+      module Includes
+        module AuthInclude
+          def get_token(credentials : (Google::Cloud::Bigquery::Auth | Google::Cloud::Bigquery::FileAuth | String)?) : String
+            case credentials
+            in Google::Cloud::Bigquery::Auth, Google::Cloud::Bigquery::FileAuth
+              credentials.get_token.access_token
+            in String
+              credentials
+            in Nil
+              raise "Credentials are invalid"
+            end
           end
         end
       end

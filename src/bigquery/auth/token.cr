@@ -1,19 +1,21 @@
 module Google
-  module Bigquery
-    class Token
-      include JSON::Serializable
+  module Cloud
+    module Bigquery
+      class Token
+        include JSON::Serializable
 
-      property access_token : String
-      property expires_in : Int32
-      property token_type : String
-      property expires : Time = Time.utc
+        property access_token : String
+        property expires_in : Int32
+        property token_type : String
+        property expires : Time = Time.utc
 
-      def expired?
-        Time.utc >= @expires
-      end
+        def expired?
+          Time.utc >= @expires
+        end
 
-      def current?
-        Time.utc < @expires
+        def current?
+          Time.utc < @expires
+        end
       end
     end
   end
