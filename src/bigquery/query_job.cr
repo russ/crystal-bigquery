@@ -6,7 +6,7 @@ module Google
           response = ConnectProxy::HTTPClient.new(Google::Cloud::Bigquery::URI_ENDPOINT) do |client|
             client.exec("POST", "/bigquery/v2/projects/#{service.project_id}/queries", HTTP::Headers{
               "Authorization" => "Bearer #{get_token(service.credentials)}",
-            }, {query: query}.to_json)
+            }, {query: query, useLegacySql: false}.to_json)
           end
 
           JSON.parse(response.body)
