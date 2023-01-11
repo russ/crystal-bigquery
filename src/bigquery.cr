@@ -6,6 +6,7 @@ require "./bigquery/job"
 require "./bigquery/project"
 require "./bigquery/query_job"
 require "./bigquery/table"
+require "./bigquery/tabledata"
 
 module Google
   module Cloud
