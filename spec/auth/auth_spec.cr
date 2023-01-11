@@ -1,12 +1,12 @@
 require "../spec_helper"
 
-describe Google::Auth do
+describe Google::Cloud::Bigquery::Auth do
   describe "#get_token" do
     it "succeeds when everything goes well" do
       WebMock.stub(:post, "https://www.googleapis.com/oauth2/v4/token")
         .to_return(body: {access_token: "test_token", expires_in: 3599, token_type: "Bearer"}.to_json)
 
-      auth = Google::Auth.new(issuer: "test@example.com", signing_key: AuthHelper.key, scopes: "TEST_GOOGLE_API_SCOPE")
+      auth = Google::Cloud::Bigquery::Auth.new(issuer: "test@example.com", signing_key: AuthHelper.key, scopes: "TEST_GOOGLE_API_SCOPE")
       auth.get_token.access_token.should eq("test_token")
     end
 
@@ -14,8 +14,8 @@ describe Google::Auth do
       WebMock.stub(:post, "https://www.googleapis.com/oauth2/v4/token")
         .to_return(status: 500, body: "oops")
 
-      auth = Google::Auth.new(issuer: "test@example.com", signing_key: AuthHelper.key, scopes: "TEST_GOOGLE_API_SCOPE", sub: "admin@example.com")
-      expect_raises(Google::Exception, "Internal Server Error") do
+      auth = Google::Cloud::Bigquery::Auth.new(issuer: "test@example.com", signing_key: AuthHelper.key, scopes: "TEST_GOOGLE_API_SCOPE", sub: "admin@example.com")
+      expect_raises(Google::Cloud::Bigquery::Exception, "Internal Server Error") do
         auth.get_token
       end
     end
