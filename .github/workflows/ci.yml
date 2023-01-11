@@ -1,0 +1,46 @@
+name: Google Bigquery CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: "*"
+
+jobs:
+  check_format:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    steps:
+      - uses: actions/checkout@v2.4.0
+      - name: Install Crystal
+        uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: latest
+      - name: Install shards
+        run: shards install
+      - name: Format
+        run: crystal tool format --check
+      - name: Lint
+        run: ./bin/ameba
+  specs:
+    strategy:
+      fail-fast: false
+      matrix:
+        crystal_version:
+          - 1.6.0
+          - latest
+        experimental:
+          - false
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: crystal-lang/install-crystal@v1
+      with:
+        crystal: ${{matrix.crystal_version}}
+    - name: Install dependencies
+      run: shards install
+    - name: Run tests
+      run: crystal spec
